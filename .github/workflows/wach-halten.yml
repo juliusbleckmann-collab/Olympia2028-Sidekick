@@ -1,0 +1,46 @@
+# Haelt die App auf Streamlit Community Cloud wach.
+# Streamlit legt Apps nach 12 Stunden ohne Besuch schlafen. Dieser Ablauf besucht
+# die App alle 6 Stunden in einem unsichtbaren Browser und weckt sie bei Bedarf auf.
+#
+# Aendert sich die Adresse der App, die Zeile APP_URL unten anpassen.
+# Testen: Auf GitHub im Reiter "Actions" den Ablauf "App wach halten" waehlen
+# und auf "Run workflow" klicken.
+
+name: App wach halten
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # alle 6 Stunden (Zeit in UTC)
+  workflow_dispatch:          # erlaubt den Start per Hand
+
+permissions:
+  contents: read
+
+jobs:
+  besuchen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      APP_URL: "https://fair-play-sidekick.streamlit.app"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Browser installieren
+        run: |
+          pip install playwright==1.47.0
+          python -m playwright install --with-deps chromium
+
+      - name: App besuchen
+        run: python .github/scripts/wach_halten.py "$APP_URL"
+
+      - name: Bildschirmfoto bei Fehler hochladen
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fehler-bildschirmfoto
+          path: wach_halten_fehler.png
+          if-no-files-found: ignore
