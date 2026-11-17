@@ -36,6 +36,8 @@ MODI = [
     "Datenabfrage prüfen",
 ]
 STUFEN = ["Nur bei Gefahr", "Normal", "Alles erklären"]
+SPRACHEN = ["Sehr einfach", "Einfach", "Fachlich"]
+HILFEN = ["Nur prüfen", "Prüfen + Tipps", "Prüfen + Entwürfe"]
 
 GMAIL_API = "https://gmail.googleapis.com/gmail/v1/users/me"
 GOOGLE_REVOKE = "https://oauth2.googleapis.com/revoke"
@@ -101,7 +103,7 @@ EINGERICHTET = [k for k, a in ANBIETER.items() if a["client_id"] and a["client_s
 # ---------------------------------------------------------------
 # Sitzung
 # ---------------------------------------------------------------
-st.set_page_config(page_title="Olympia-Sidekick", page_icon="🏅")
+st.set_page_config(page_title="Fair-Play-Sidekick", page_icon="🤝")
 
 for schluessel, start in [
     ("messages", []),
@@ -368,12 +370,13 @@ def post_sende(an, betreff, text):
     (gmail_sende if st.session_state.post["anbieter"] == "gmail" else outlook_sende)(an, betreff, text)
 
 
+RUECKKEHR = "code" in st.query_params or "error" in st.query_params   # zurueck von der Postfach-Anmeldung
 post_rueckweg()
 
 # ---------------------------------------------------------------
 # Oberflaeche
 # ---------------------------------------------------------------
-st.title("🏅 Olympia-Sidekick")
+st.title("🤝 Fair-Play-Sidekick")
 st.caption(
     "Dein unabhängiger Begleiter rund um Tickets für LA 2028. "
     "Prototyp – bitte keine Passwörter, PINs oder vollständigen Kartendaten eingeben."
@@ -395,18 +398,63 @@ if st.session_state.hinweis:
     getattr(st, art)(text)
     st.session_state.hinweis = None
 
+_dialog = getattr(st, "dialog", None) or getattr(st, "experimental_dialog")
+
+
+@_dialog("Willkommen beim Fair-Play-Sidekick", width="large")
+def willkommen():
+    st.markdown(
+        "**Das ist ein Prototyp.** Der Sidekick ist ein Testmodell aus einem Studienprojekt. "
+        "Er deckt noch nicht alles ab, kann Fehler machen und ersetzt keine Rechtsberatung. "
+        "Er kennt nur ausgewählte Regeln zu LA28-Tickets, Datenschutz (DSGVO) und deutschem "
+        "Verbraucherrecht (BGB), Stand November 2026.\n\n"
+        "**Bleib vorsichtig:** Gib keine Passwörter, PINs, TANs oder vollständigen Kartendaten ein. "
+        "Lass dich nicht unter Zeitdruck setzen, prüfe Angebote auch auf der offiziellen Seite "
+        "und entscheide selbst, was du kaufst.\n\n"
+        "**Stell ihn dir ein:** In der Seitenleiste legst du fest, wie viel er sich einmischt, "
+        "wie einfach er schreibt und ob er nur prüft, Tipps gibt oder auch Entwürfe schreibt.\n\n"
+        f"**Bitte sparsam nutzen:** Jede Anfrage kostet Guthaben. Pro Sitzung sind etwa "
+        f"{MAX_MESSAGES // 2} Fragen möglich."
+    )
+    st.caption("Füge unten einfach dein Material ein: ein Angebot, einen Chatverlauf, AGB oder einen Screenshot.")
+    if st.button("Verstanden, los geht's", type="primary"):
+        st.rerun()
+
+
+# Einmal pro Sitzung zeigen, aber nicht nach der Rueckkehr von der Postfach-Anmeldung
+if not st.session_state.get("willkommen_gezeigt"):
+    st.session_state.willkommen_gezeigt = True
+    if not RUECKKEHR:
+        willkommen()
+
 with st.sidebar:
     st.header("Modus")
     modus = st.radio("Was möchtest du prüfen?", MODI, label_visibility="collapsed")
 
-    st.header("Wie viel soll ich mich einmischen?")
-    stufe = st.select_slider("Einmisch-Stufe", STUFEN, value="Normal", label_visibility="collapsed")
+    st.header("Deine Einstellungen")
+    stufe = st.select_slider("Wie viel soll ich mich einmischen?", STUFEN, value="Normal")
     st.caption(
         {
             "Nur bei Gefahr": "Ich melde mich ausführlich nur bei Betrug oder hohem Risiko.",
-            "Normal": "Ampel, Begründung, Quellen und Entwürfe.",
+            "Normal": "Ampel, Begründung und Quellen.",
             "Alles erklären": "Zusätzlich Begriffe und Hintergründe.",
         }[stufe]
+    )
+    sprache = st.select_slider("Wie soll ich schreiben?", SPRACHEN, value="Einfach")
+    st.caption(
+        {
+            "Sehr einfach": "Ganz kurze Sätze, keine Fachwörter.",
+            "Einfach": "Einfache Sätze, Fachwörter werden erklärt.",
+            "Fachlich": "Genauer, mit Fachbegriffen und Paragrafen.",
+        }[sprache]
+    )
+    hilfe = st.select_slider("Was soll ich tun?", HILFEN, value="Prüfen + Entwürfe")
+    st.caption(
+        {
+            "Nur prüfen": "Nur Bewertung und Begründung. Was du tust, entscheidest du ganz allein.",
+            "Prüfen + Tipps": "Dazu konkrete nächste Schritte, aber keine fertigen Texte.",
+            "Prüfen + Entwürfe": "Dazu Schritte und fertige Antwort- oder Mail-Entwürfe zum Anpassen.",
+        }[hilfe]
     )
 
     st.divider()
@@ -472,6 +520,9 @@ with st.sidebar:
         st.caption("Was der Sidekick wann getan hat. Wird beim Schließen gelöscht.")
         protokoll_platz = st.container()   # wird ganz am Ende gefuellt, damit nichts fehlt
 
+    if st.button("ℹ️ Über diesen Prototyp"):
+        willkommen()
+
     if st.button("Neues Gespräch"):
         st.session_state.messages = []
         st.session_state.protokoll = []
@@ -523,8 +574,17 @@ def zerlege(text):
     return teile
 
 
-def zeige_antwort(text, nr):
-    t = zerlege(text)
+def nach_hilfe(t, hilfe):
+    """Setzt die Hilfe-Stufe auch im Code durch, falls das Modell sich nicht daran haelt."""
+    if hilfe != "Prüfen + Entwürfe":
+        t["antwort"] = t["mail"] = None
+    if hilfe == "Nur prüfen":
+        t["mensch"] = None
+    return t
+
+
+def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
+    t = nach_hilfe(zerlege(text), hilfe)
     if t["farbe"]:
         {"GRÜN": st.success, "GELB": st.warning, "ROT": st.error}[t["farbe"]](
             f"**{t['farbe']}** – {t['fazit']}"
@@ -628,7 +688,7 @@ for nr, m in enumerate(st.session_state.messages):
         if m.get("fehler"):
             st.error(m["anzeige"])
         elif m["role"] == "assistant":
-            zeige_antwort(m["content"], nr)
+            zeige_antwort(m["content"], nr, m.get("hilfe", "Prüfen + Entwürfe"))
         else:
             st.markdown(m["anzeige"])
 
@@ -668,8 +728,9 @@ elif mail_id and post_kann("lesen"):
 if neu:
     material, anzeige, logzeile = neu
     verbunden = f"{post_name()} verbunden" if st.session_state.post else "nicht verbunden"
-    text_fuer_modell = f"[Modus: {modus}] [Stufe: {stufe}] [Postfach: {verbunden}]\n{material}"
-    protokolliere(f"{logzeile} (Modus: {modus}, Stufe: {stufe}"
+    text_fuer_modell = (f"[Modus: {modus}] [Stufe: {stufe}] [Sprache: {sprache}] [Hilfe: {hilfe}] "
+                        f"[Postfach: {verbunden}]\n{material}")
+    protokolliere(f"{logzeile} (Modus: {modus}, Einmischen: {stufe}, Sprache: {sprache}, Hilfe: {hilfe}"
                   + (", mit Screenshot)" if bild is not None else ")"))
 
     # Nachricht fuer die API, optional mit Bild
@@ -719,7 +780,7 @@ if neu:
                     "anzeige": "Da ist gerade etwas schiefgelaufen. Bitte versuch es gleich noch einmal.",
                 })
             else:
-                t = zerlege(answer)
+                t = nach_hilfe(zerlege(answer), hilfe)
                 protokolliere("Ampel: " + (t["farbe"] or "keine Bewertung"))
                 if t["mail"]:
                     protokolliere("Mail-Entwurf erstellt (nicht gesendet)")
@@ -727,7 +788,7 @@ if neu:
                     protokolliere("Chat-Antwort vorgeschlagen")
                 if t["mensch"]:
                     protokolliere("Empfehlung: Mensch verlangen")
-                st.session_state.messages.append({"role": "assistant", "content": answer, "anzeige": answer})
+                st.session_state.messages.append({"role": "assistant", "content": answer, "anzeige": answer, "hilfe": hilfe})
     st.rerun()   # alles neu zeichnen: Antwort, Protokoll und geleerter Uploader
 
 # Protokoll erst jetzt fuellen, damit auch die Schritte dieses Durchlaufs drinstehen
