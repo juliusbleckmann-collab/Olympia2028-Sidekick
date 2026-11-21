@@ -109,9 +109,44 @@ Jeder Eintrag hat eine Nummer, einen Titel, die Quelle und den Stand (Tag, an de
 - Wer außerhalb der USA wohnt, kann dafür ein solches Gericht in Kalifornien nutzen.
 - Vorher muss man LA28 schriftlich und unterschrieben über den Streit informieren („Notice of Dispute“) und eine Einigung versuchen.
 - Man kann der Schiedsklausel widersprechen; wie das geht, steht in Abschnitt 11 der Bedingungen.
-- Folgerung: Rechte gegen LA28 durchzusetzen ist von Deutschland aus aufwendig. Bei Problemen ist der schnellere Weg oft die Rückbuchung über den Kartenanbieter (allgemeines Wissen, bitte beim Kartenanbieter nachfragen).
+- Folgerung: Rechte gegen LA28 durchzusetzen ist von Deutschland aus aufwendig. Bei Problemen ist der schnellere Weg oft die Rückbuchung über den Kartenanbieter (Chargeback, siehe [16]; ob die Bank zustimmt, entscheidet sie im Einzelfall).
 
 [15] Wer hilft bei Streit mit Händlern im Ausland – Quelle: Europäisches Verbraucherzentrum Deutschland, https://www.evz.de/en/question-complaint/ (Stand: 13.11.2026)
 - Das Europäische Verbraucherzentrum (EVZ) hilft kostenlos Menschen, die in Deutschland wohnen und ein Problem mit einem Unternehmen in einem anderen EU-Land, in Island, Norwegen oder dem Vereinigten Königreich haben.
 - Bei Unternehmen außerhalb dieser Länder, zum Beispiel in den USA oder Asien, hilft das EVZ nicht. Es verweist auf die Internetseiten von Consumers International und ICPEN sowie auf die deutschen Botschaften und Konsulate.
 - Bei Händlern in Deutschland ist die Verbraucherzentrale die Anlaufstelle [11].
+
+[16] Geld zurückholen nach der Zahlung – Quellen: Europäisches Verbraucherzentrum Deutschland, „Chargeback: So holen Sie Kreditkartenzahlungen zurück“, https://www.evz.de/de/themen/finanzen-versicherungen/chargeback/ (Seite aktualisiert am 31.03.2026) und Verbraucherzentrale, „Internet-Betrug: So können Sie versuchen, Ihr Geld zurückzuholen“, https://www.verbraucherzentrale.de/wissen/digitale-welt/onlinehandel/internetbetrug-so-koennen-sie-versuchen-ihr-geld-zurueckzuholen-33155 (Seite vom 03.08.2026) (Stand: 21.11.2026)
+- Chargeback gibt es bei Zahlung mit Kredit- oder Debitkarte (z. B. Visa, Mastercard). Er beruht auf den Regeln der Kartenorganisationen. Typische Fälle: nicht erhaltene Ware oder ausgefallene Leistung, fehlende Rückzahlung nach Widerruf, nicht autorisierte Abbuchung, Fake-Shop, Insolvenz des Unternehmens.
+- Ablauf: Zuerst den Händler schriftlich kontaktieren und eine kurze Frist setzen (nicht mehr als eine Woche). Danach bei der Bank melden, die die Karte ausgestellt hat, und deren Reklamationsformular nutzen. Bei American Express direkt dort.
+- Fristen: In der Regel bis zu 120 Tage, meist ab dem Datum der Abbuchung. Bei nicht gelieferter Ware nennt das EVZ etwa 30 Tage. Die Verbraucherzentrale nennt für Kreditkarten keine Frist in Tagen und weist auf eine mögliche Bearbeitungsgebühr hin.
+- Es ist kein sicherer Anspruch: Die Bank prüft jeden Einzelfall und muss nicht zustimmen. Typische Ablehnungsgründe sind zu späte Meldung, keine vorherige Klärung mit dem Händler, bloße Unzufriedenheit mit der Ware und Zahlung mit PIN. Das Verfahren dauert meist zwei bis acht Wochen, bei Einspruch des Händlers länger. Bei Ablehnung kann man eine Schlichtungsstelle für Bankgeschäfte anrufen.
+- Reine Girocard-Zahlungen: Ein klassischer Chargeback ist dort nicht möglich. Bei Debitkarten kommt es darauf an, ob über ein internationales System abgerechnet wird.
+- Lastschrift: Eine genehmigte Lastschrift kann man innerhalb von acht Wochen ab Abbuchung zurückholen lassen, eine nicht genehmigte bis zu 13 Monate danach.
+- Überweisung: Ist der Auftrag ausgeführt, kann er nicht mehr rückgängig gemacht werden. Auch ein schneller Anruf bei der Bank hilft oft nicht, weil viele Überweisungen in Echtzeit gebucht werden. Vorkasse ist deshalb ein Fake-Shop-Warnsignal.
+- PayPal: Der PayPal-Käuferschutz greift laut Verbraucherzentrale meist nur bei Warenkäufen, nicht bei Gewinnspielen, und nach den Nutzungsbedingungen. Ob ein Chargeback über eine bei PayPal hinterlegte Kreditkarte geht, hängt vom Einzelfall ab.
+- Bargeldtransfer (z. B. Western Union): Rückruf ist möglich, solange das Geld noch nicht abgeholt wurde. Sofort die Betrugshotline des Anbieters anrufen.
+- Ein Erstattungsanspruch gegen den Händler besteht unabhängig davon, ob der Chargeback klappt.
+
+[17] Warnung vor Betrug mit LA28-Tickets – Quelle: Generalstaatsanwaltschaft Kalifornien (Büro von Rob Bonta), Verbraucherwarnung „All That Glitters isn’t Gold“, Pressemitteilung vom 27.04.2026, https://www.oag.ca.gov/news/press-releases/all-glitters-isn%E2%80%99t-gold-attorney-general-bonta-warns-californians-la-2028 (Stand: 21.11.2026)
+- Die Behörde warnt vor gefälschten Tickets und verwandten Maschen rund um LA 2028 und rät, Tickets möglichst direkt über die offiziellen Websites zu kaufen (verlinkt wird die LA28-FAQ zum Ticketkauf).
+- Warnsignale: auffallend günstige oder schwer erhältliche Tickets („zu gut, um wahr zu sein“).
+- Beim Kauf bei Wiederverkäufern vorher Rückerstattungsrichtlinie und Garantie für Echtheit und pünktliche Lieferung prüfen; die Website auf https:// und Bewertungen prüfen; nie Sozialversicherungsnummer oder Bankkontonummer angeben.
+- Riskante Zahlungswege: Zelle, Venmo und Cash App (Geld oft nicht zurückzubekommen). Als starkes Warnsignal gelten Geschenkkarten, Prepaid-Karten, Überweisungen und Kryptowährung. Empfohlen wird die Kreditkarte, weil sich betrügerische Abbuchungen damit anfechten lassen (siehe [16]).
+- Meldestellen in den USA: Generalstaatsanwaltschaft Kalifornien, Better Business Bureau und das FBI Internet Crime Complaint Center (ic3.gov). In Deutschland ist für Betroffene die Polizei die Anlaufstelle [11].
+- Das ist die Warnung einer US-Behörde für Menschen in Kalifornien, kein deutsches Recht. Sie deckt sich mit den offiziellen Verkaufswegen in [1] und dem Wiederverkaufshinweis in [12].
+
+[18] Chatbots müssen sich als KI zu erkennen geben – Quelle: Europäische Kommission, „Transparenzpflichten nach Artikel 50 des KI-Gesetzes“ (FAQ), https://digital-strategy.ec.europa.eu/de/faqs/transparency-obligations-under-article-50-ai-act (Seite vom 24.07.2026, maschinelle Übersetzung; Stand: 21.11.2026)
+- Anbieter von KI-Systemen, die direkt mit Menschen sprechen (z. B. Chatbots, KI-Agenten, Avatare), müssen sicherstellen, dass die Person von Beginn der ersten Interaktion an klar erfährt, dass sie mit einer KI spricht.
+- Die Ausnahme „offensichtlich“ soll eng ausgelegt werden.
+- Die Pflicht gilt seit dem 2. August 2026. Eine Frist bis 2. Dezember 2026 gibt es nur für die Kennzeichnung KI-erzeugter Inhalte bei älteren Systemen, nicht für den Hinweis im Chat.
+- Durchgesetzt wird sie vor allem durch nationale Marktüberwachungsbehörden; Bußgelder bis 15 Mio. Euro oder 3 % des weltweiten Jahresumsatzes sind vorgesehen.
+- Folgerung: Ein Kundenservice-Bot, der sich als Mensch ausgibt oder nie sagt, dass er eine KI ist, ist ein Warnsignal (siehe „Künstliche Nähe“). Ob im Einzelfall ein Verstoß vorliegt, kann der Sidekick nicht beurteilen.
+
+[19] Einreise in die USA mit deutschem Pass – Quelle: Auswärtiges Amt, Reise- und Sicherheitshinweise USA, Abschnitt zur Einreise, https://www.auswaertiges-amt.de/de/service/laender/usa-node/usasicherheit/201382 (Seite „unverändert gültig seit 30.10.2026“; Stand: 21.11.2026)
+- Reisepass: Einreise ist mit ESTA oder Visum möglich. Vorläufiger Reisepass und Kinderreisepass gehen nur mit Visum (ESTA nicht möglich). Der Personalausweis reicht nicht.
+- Das Reisedokument muss mindestens für die gesamte Aufenthaltsdauer gültig sein, einschließlich des Tages der Ausreise.
+- Visumfrei (Visa Waiver) braucht einen E-Pass mit Chip, eine gültige ESTA und ein gültiges Rück- oder Weiterflugticket. Erlaubt sind u. a. Tourismus und Geschäftsreisen.
+- Eine ESTA gilt für beliebig viele Einreisen, jeweils für höchstens 90 Tage innerhalb von zwei Jahren. Die US-Behörden empfehlen, sie mindestens 72 Stunden vor Reiseantritt zu beantragen. Sie kostet eine Gebühr; die Höhe nennt die Seite nicht.
+- Zu Visumgebühr und Dauer eines Visumverfahrens steht auf der Seite nichts. Die Einreisebestimmungen können sich kurzfristig ändern. Verbindliche Auskunft geben nur die Vertretungen der USA.
+- Ein Ticket ist keine Garantie für ein Visum oder die Einreise [10].
