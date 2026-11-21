@@ -5,7 +5,8 @@ import html
 import re
 import time
 import urllib.parse
-from datetime import datetime
+from datetime import date, datetime, timedelta
+from datetime import time as dtime
 from email.message import EmailMessage
 
 import requests
@@ -547,7 +548,7 @@ client = Mistral(api_key=geheim("MISTRAL_API_KEY"))
 def zerlege(text):
     """Trennt die Markierungen aus der Modellantwort. Vertraegt kleine Abweichungen
     (Fettschrift, Kleinschreibung, fehlendes ---ENDE--- bei abgeschnittener Antwort)."""
-    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "mensch": None}
+    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "erinnerung": None, "mensch": None}
 
     m = re.match(r"\s*[*#\s]*AMPEL\s*:?[*\s]*:?\s*(GRÜN|GRUEN|GELB|ROT)[*\s]*[–—-]?\s*(.*)", text, re.IGNORECASE)
     if m:
@@ -560,7 +561,7 @@ def zerlege(text):
         teile["mensch"] = mensch.group(1).strip().strip("*").strip()
         text = text[: mensch.start()] + text[mensch.end():]
 
-    for name in ("antwort", "mail"):
+    for name in ("antwort", "mail", "erinnerung"):
         muster = r"-{3}\s*" + name.upper() + r"\s*-{3}\s*(.*?)\s*(?:-{3}\s*ENDE\s*-{3}|\Z)"
         block = re.search(muster, text, re.DOTALL)
         if block:
@@ -577,6 +578,7 @@ def nach_hilfe(t, hilfe):
         t["antwort"] = t["mail"] = None
     if hilfe == "Nur prüfen":
         t["mensch"] = None
+        t["erinnerung"] = None   # Erinnerungen sind ein naechster Schritt, erst ab "Tipps"
     return t
 
 
@@ -596,9 +598,60 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
     if t["mail"]:
         zeige_mail(t["mail"], nr)
 
+    if t["erinnerung"]:
+        zeige_erinnerung(t["erinnerung"], nr)
+
     if t["mensch"]:
         st.info("**Zeit für einen Menschen.** Kopiere diesen Satz in den Chat:")
         st.code(t["mensch"], language=None)
+
+
+def ics_datei(titel, start):
+    """Baut eine Kalenderdatei (.ics) mit Alarm zur Startzeit. Nichts wird gespeichert oder verschickt."""
+    def esc(s):
+        return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", " ")
+    zeilen = [
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Fair-Play-Sidekick//DE", "BEGIN:VEVENT",
+        f"UID:{hashlib.sha1((titel + str(start)).encode()).hexdigest()}@fair-play-sidekick",
+        f"DTSTAMP:{datetime.utcnow():%Y%m%dT%H%M%SZ}",
+        f"DTSTART:{start:%Y%m%dT%H%M%S}",
+        f"DTEND:{start + timedelta(minutes=15):%Y%m%dT%H%M%S}",
+        f"SUMMARY:{esc(titel)}",
+        "BEGIN:VALARM", "ACTION:DISPLAY", f"DESCRIPTION:{esc(titel)}", "TRIGGER:PT0S", "END:VALARM",
+        "END:VEVENT", "END:VCALENDAR",
+    ]
+    return "\r\n".join(zeilen) + "\r\n"
+
+
+def zeige_erinnerung(inhalt, nr):
+    """Erinnerungs-Vorschlag: Titel und Termin pruefen, dann als Kalender-Datei laden.
+    Prototyp: Es wird keine Erinnerung im Hintergrund angelegt, die Person importiert die Datei selbst."""
+    titel = re.search(r"^Titel:[ \t]*(.*)$", inhalt, re.MULTILINE)
+    datum = re.search(r"^Datum:[ \t]*(\d{1,2})\.(\d{1,2})\.(\d{4})", inhalt, re.MULTILINE)
+    titel = titel.group(1).strip() if titel else "Erinnerung vom Sidekick"
+    try:
+        vorschlag = date(int(datum.group(3)), int(datum.group(2)), int(datum.group(1)))
+    except (AttributeError, ValueError):
+        vorschlag = date.today() + timedelta(days=7)
+    if vorschlag < date.today():
+        vorschlag = date.today()
+
+    st.markdown("**⏰ Erinnerungs-Vorschlag** (prüfen, anpassen, dann in deinen Kalender laden):")
+    f_titel = st.text_input("Woran soll ich dich erinnern?", value=titel, key=f"er_titel_{nr}")
+    spalte_datum, spalte_zeit = st.columns(2)
+    f_datum = spalte_datum.date_input("Datum", value=vorschlag, min_value=date.today(), key=f"er_datum_{nr}", format="DD.MM.YYYY")
+    f_zeit = spalte_zeit.time_input("Uhrzeit", value=dtime(9, 0), key=f"er_zeit_{nr}")
+    titel_sauber = f_titel.strip() or "Erinnerung vom Sidekick"
+    if st.download_button(
+        "Erinnerung in Kalender laden (.ics)",
+        data=ics_datei(titel_sauber, datetime.combine(f_datum, f_zeit)),
+        file_name="erinnerung.ics", mime="text/calendar", key=f"er_dl_{nr}",
+    ):
+        protokolliere(f"Erinnerung als Kalenderdatei geladen ({f_datum:%d.%m.%Y})")
+    st.caption(
+        "Prototyp: Der Sidekick legt nichts selbst an. Die Datei öffnest du in Apple Kalender, Outlook oder Google Kalender; "
+        "dort erinnert dich dein Gerät."
+    )
 
 
 def zeige_mail(inhalt, nr):
@@ -690,6 +743,25 @@ for nr, m in enumerate(st.session_state.messages):
             st.markdown(m["anzeige"])
 
 # ---------------------------------------------------------------
+# Feedback (Prototyp: wird nicht gespeichert)
+# ---------------------------------------------------------------
+with st.expander("💬 Feedback an das Team"):
+    with st.form("feedback", clear_on_submit=True):
+        feedback = st.text_area(
+            "Was war gut, was fehlt, was hat genervt?", max_chars=1000, height=110,
+            placeholder="Schreib einfach los. Bitte keine persönlichen Daten.",
+        )
+        abgeschickt = st.form_submit_button("Feedback abschicken")
+    if abgeschickt:
+        if feedback.strip():
+            # Prototyp: nur Attrappe. Der Text wird weder gespeichert noch verschickt.
+            # Spaeter: Eintrag ins Backlog des Teams (z. B. Ticket-System oder Datenbank).
+            protokolliere("Feedback abgeschickt (Prototyp: nicht gespeichert)")
+            st.success("Danke! Im Prototyp wird dein Feedback nicht gespeichert. In der fertigen Version landet es im Backlog des Teams.")
+        else:
+            st.warning("Das Feld ist noch leer.")
+
+# ---------------------------------------------------------------
 # Neue Eingabe: getippter Text oder ausgewaehlte Mail aus dem Postfach
 # ---------------------------------------------------------------
 prompt = st.chat_input("Füge hier das Angebot, den Chat oder die AGB ein …")
@@ -726,7 +798,7 @@ if neu:
     material, anzeige, logzeile = neu
     verbunden = f"{post_name()} verbunden" if st.session_state.post else "nicht verbunden"
     text_fuer_modell = (f"[Modus: {modus}] [Stufe: {stufe}] [Sprache: {sprache}] [Hilfe: {hilfe}] "
-                        f"[Postfach: {verbunden}]\n{material}")
+                        f"[Postfach: {verbunden}] [Heute: {date.today():%d.%m.%Y}]\n{material}")
     protokolliere(f"{logzeile} (Modus: {modus}, Einmischen: {stufe}, Sprache: {sprache}, Hilfe: {hilfe}"
                   + (", mit Screenshot)" if bild is not None else ")"))
 
