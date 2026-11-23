@@ -106,6 +106,71 @@ EINGERICHTET = [k for k, a in ANBIETER.items() if a["client_id"] and a["client_s
 # ---------------------------------------------------------------
 st.set_page_config(page_title="Fair-Play-Sidekick", page_icon="🤝")
 
+# Einheitliche Optik der Antworten: Farben, kleine fette Zwischentitel, Karten
+st.markdown(
+    """
+    <style>
+    :root {
+        --sk-akzent: #6366F1;
+        --sk-rot: #EF4444;
+        --sk-gelb: #F59E0B;
+        --sk-gruen: #22C55E;
+        --sk-grau: #F1F5F9;
+        --sk-grau-rand: #CBD5E1;
+    }
+    /* Ueberschriften im Chat: klein und fett, nie wuchtig */
+    [data-testid="stChatMessage"] h1,
+    [data-testid="stChatMessage"] h2,
+    [data-testid="stChatMessage"] h3,
+    [data-testid="stChatMessage"] h4,
+    [data-testid="stChatMessage"] h5,
+    [data-testid="stChatMessage"] h6 {
+        font-size: 1.02rem !important;
+        line-height: 1.35 !important;
+        font-weight: 700 !important;
+        letter-spacing: normal !important;
+        padding: 0.6rem 0 0.1rem 0 !important;
+        margin: 0 !important;
+    }
+    [data-testid="stChatMessage"] li h1,
+    [data-testid="stChatMessage"] li h2,
+    [data-testid="stChatMessage"] li h3,
+    [data-testid="stChatMessage"] li h4 {
+        font-size: inherit !important;
+        font-weight: 600 !important;
+        padding: 0 !important;
+    }
+    [data-testid="stChatMessage"] li { margin-bottom: 0.4rem; }
+
+    .sk-titel { font-size: 1.02rem; font-weight: 700; margin: 1.1rem 0 0.3rem 0; }
+
+    .sk-ampel {
+        display: flex; gap: 0.8rem; align-items: flex-start;
+        padding: 0.8rem 1rem; border-radius: 0.6rem;
+        border-left: 6px solid var(--sk-farbe);
+        background: color-mix(in srgb, var(--sk-farbe) 10%, white);
+    }
+    .sk-ampel .sk-punkt {
+        flex: none; width: 0.9rem; height: 0.9rem; margin-top: 0.3rem;
+        border-radius: 50%; background: var(--sk-farbe);
+    }
+    .sk-ampel .sk-wort { font-weight: 800; letter-spacing: 0.04em; color: var(--sk-farbe); }
+    .sk-ampel.sk-rot   { --sk-farbe: var(--sk-rot); }
+    .sk-ampel.sk-gelb  { --sk-farbe: var(--sk-gelb); }
+    .sk-ampel.sk-gruen { --sk-farbe: var(--sk-gruen); }
+
+    .sk-bot {
+        margin: 1rem 0 0.2rem 0; padding: 0.7rem 1rem;
+        background: var(--sk-grau); border: 1px solid var(--sk-grau-rand);
+        border-left: 4px solid #64748B; border-radius: 0.6rem;
+    }
+    .sk-bot .sk-bot-kopf { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; }
+    .sk-bot .sk-bot-text { font-size: 0.95rem; color: #334155; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 for schluessel, start in [
     ("messages", []),
     ("protokoll", []),
@@ -548,7 +613,7 @@ client = Mistral(api_key=geheim("MISTRAL_API_KEY"))
 def zerlege(text):
     """Trennt die Markierungen aus der Modellantwort. Vertraegt kleine Abweichungen
     (Fettschrift, Kleinschreibung, fehlendes ---ENDE--- bei abgeschnittener Antwort)."""
-    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "erinnerung": None, "mensch": None}
+    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "erinnerung": None, "mensch": None, "offiziell": ""}
 
     m = re.match(r"\s*[*#\s]*AMPEL\s*:?[*\s]*:?\s*(GRÜN|GRUEN|GELB|ROT)[*\s]*[–—-]?\s*(.*)", text, re.IGNORECASE)
     if m:
@@ -562,14 +627,99 @@ def zerlege(text):
         text = text[: mensch.start()] + text[mensch.end():]
 
     for name in ("antwort", "mail", "erinnerung"):
-        muster = r"-{3}\s*" + name.upper() + r"\s*-{3}\s*(.*?)\s*(?:-{3}\s*ENDE\s*-{3}|\Z)"
-        block = re.search(muster, text, re.DOTALL)
+        # Marker vertragen Einrueckung, Listenzeichen, Fettschrift und Leerzeichen.
+        # Fehlt ---ENDE---, endet der Entwurf vor "Quellen", "Offiziell nachpruefen" oder am Textende.
+        muster = (
+            r"^[ \t>*_`#\-\d.]*-{3}[ \t]*" + name.upper() + r"[ \t]*-{3}[ \t*_`]*\n?(.*?)\s*"
+            r"(?:^[ \t>*_`]*-{3}[ \t]*ENDE[ \t]*-{3}[ \t*_`]*$"
+            r"|(?=^[ \t#*]*Quellen\b)|(?=^[ \t*]*Offiziell nachprüfen)|\Z)"
+        )
+        block = re.search(muster, text, re.DOTALL | re.MULTILINE)
         if block:
             teile[name] = block.group(1).strip()
             text = text[: block.start()] + text[block.end():]
 
-    teile["text"] = text.strip()
+    off = re.search(r"^[ \t*]*Offiziell nachprüfen:?[ \t*]*(.*)$", text, re.MULTILINE | re.IGNORECASE)
+    if off:
+        teile["offiziell"] = off.group(1).strip()
+        text = text[: off.start()] + text[off.end():]
+
+    teile["text"] = bereinige_markdown(text)
+    teile["abschnitte"] = gliedere(teile["text"])
     return teile
+
+
+# Reihenfolge der Bloecke in der Antwort
+ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "tun": 3, "quellen": 4}
+
+
+def _abschnitt_art(titel):
+    t = titel.lower()
+    if "quellen" in t:
+        return "quellen"
+    if re.search(r"\bbot\b|unternehmen|das sagt", t):
+        return "bot"
+    if "einordnung" in t:
+        return "einordnung"
+    if re.search(r"\btun\b|schritte|vorschlag", t):
+        return "tun"
+    return "einordnung"   # unbekannte Zwischentitel zaehlen zur Einordnung
+
+
+def gliedere(text):
+    """Teilt den Text an den ###-Ueberschriften in Bloecke: Einleitung, Bot, Einordnung, Tun, Quellen.
+    Gibt eine nach ABSCHNITT_REIHE sortierte Liste aus (art, titel, inhalt) zurueck."""
+    teile, art, titel, zeilen = [], "einleitung", "", []
+
+    def abschliessen():
+        inhalt = "\n".join(zeilen).strip()
+        if inhalt:
+            teile.append((art, titel, inhalt))
+
+    for zeile in text.split("\n"):
+        m = re.match(r"^###\s+(.+)$", zeile) or re.match(r"^\*\*([^*]{3,60})\*\*:?$", zeile)
+        if m and (zeile.startswith("###") or _abschnitt_art(m.group(1)) != "einordnung"):
+            abschliessen()
+            art, titel, zeilen = _abschnitt_art(m.group(1)), m.group(1).strip(), []
+        else:
+            zeilen.append(zeile)
+    abschliessen()
+    return sorted(teile, key=lambda x: ABSCHNITT_REIHE[x[0]])
+
+
+_STRICH_ZEILE = re.compile(r"^[ \t]*(?:-{3,}|={3,}|\*{3,}|_{3,})[ \t]*$")
+_MARKER_ZEILE = re.compile(r"^[ \t>*_`]*-{3}[ \t]*(?:ANTWORT|MAIL|ERINNERUNG|ENDE)[ \t]*-{3}[ \t*_`]*$", re.IGNORECASE)
+_LISTE_MIT_RAUTE = re.compile(r"^([ \t]*(?:[-*+]|\d{1,2}[.)])[ \t]+)#{1,6}[ \t]*(.*)$")
+_UEBERSCHRIFT = re.compile(r"^[ \t]{0,3}#{1,6}[ \t]*(.*?)[ \t#]*$")
+
+
+def bereinige_markdown(text):
+    """Faengt typische Layout-Fehler des Modells ab, bevor st.markdown den Text zeigt:
+    - Strich-Zeilen (---, ===) unter Text machen sonst eine riesige Ueberschrift daraus,
+    - #, ## und #### werden zu ###, damit alle Ueberschriften gleich gross sind,
+    - Ueberschriften in Listenpunkten oder ganze Saetze als Ueberschrift werden normaler Text bzw. fett,
+    - uebrig gebliebene Marker und zu viele Leerzeilen verschwinden."""
+    ergebnis = []
+    for zeile in text.replace("\r\n", "\n").split("\n"):
+        if _STRICH_ZEILE.match(zeile) or _MARKER_ZEILE.match(zeile):
+            ergebnis.append("")
+            continue
+        m = _LISTE_MIT_RAUTE.match(zeile)
+        if m:
+            ergebnis.append(m.group(1) + m.group(2).strip())
+            continue
+        m = _UEBERSCHRIFT.match(zeile)
+        if m:
+            inhalt = m.group(1).strip().strip("*").strip()
+            if not inhalt:
+                ergebnis.append("")
+            elif len(inhalt.split()) > 8 or inhalt.endswith((".", "!", "?", ":", ",")) and len(inhalt.split()) > 3:
+                ergebnis.append(f"**{inhalt}**")   # ein Satz ist keine Ueberschrift
+            else:
+                ergebnis.append(f"### {inhalt}")
+            continue
+        ergebnis.append(zeile.rstrip())
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(ergebnis)).strip()
 
 
 def nach_hilfe(t, hilfe):
@@ -582,28 +732,70 @@ def nach_hilfe(t, hilfe):
     return t
 
 
+def _zitat_html(inhalt):
+    """Text des Unternehmens-Bots als grauer Kasten. Der Text ist fremdes Material und wird maskiert."""
+    zeilen = [re.sub(r"^\s*>\s?", "", z) for z in inhalt.split("\n")]
+    text = "<br>".join(html.escape(z) for z in zeilen if z.strip())
+    return (
+        '<div class="sk-bot"><div class="sk-bot-kopf">🤖 Das sagt der Unternehmens-Bot</div>'
+        f'<div class="sk-bot-text">{text}</div></div>'
+    )
+
+
+def _titel(symbol, text):
+    st.markdown(f'<div class="sk-titel">{symbol} {html.escape(text)}</div>', unsafe_allow_html=True)
+
+
 def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
+    """Gliederung: Ampel-Karte, Zitatbox des Bots, Meine Einordnung, Was du tun kannst (mit Buttons), Quellen."""
     t = nach_hilfe(zerlege(text), hilfe)
     if t["farbe"]:
-        {"GRÜN": st.success, "GELB": st.warning, "ROT": st.error}[t["farbe"]](
-            f"**{t['farbe']}** – {t['fazit']}"
+        klasse = {"GRÜN": "sk-gruen", "GELB": "sk-gelb", "ROT": "sk-rot"}[t["farbe"]]
+        st.markdown(
+            f'<div class="sk-ampel {klasse}"><span class="sk-punkt"></span><div>'
+            f'<span class="sk-wort">{t["farbe"]}</span><br>{html.escape(t["fazit"])}</div></div>',
+            unsafe_allow_html=True,
         )
-    if t["text"]:
-        st.markdown(t["text"])
 
-    if t["antwort"]:
-        st.markdown("**Vorschlag für deine Chat-Antwort** (anpassen und selbst abschicken):")
-        st.code(t["antwort"], language=None)
+    abschnitte = t["abschnitte"]
+    hat_tun = any(a == "tun" for a, _, _ in abschnitte)
+    aktionen = bool(t["antwort"] or t["mail"] or t["erinnerung"] or t["mensch"])
 
-    if t["mail"]:
-        zeige_mail(t["mail"], nr)
+    def zeige_aktionen():
+        if t["antwort"]:
+            st.markdown("**Vorschlag für deine Chat-Antwort** (anpassen und selbst abschicken):")
+            st.code(t["antwort"], language=None)
+        if t["mail"]:
+            zeige_mail(t["mail"], nr)
+        if t["erinnerung"]:
+            zeige_erinnerung(t["erinnerung"], nr)
+        if t["mensch"]:
+            st.info("**Zeit für einen Menschen.** Kopiere diesen Satz in den Chat:")
+            st.code(t["mensch"], language=None)
 
-    if t["erinnerung"]:
-        zeige_erinnerung(t["erinnerung"], nr)
+    for art, titel, inhalt in abschnitte:
+        if art == "einleitung":
+            st.markdown(inhalt)
+        elif art == "bot":
+            st.markdown(_zitat_html(inhalt), unsafe_allow_html=True)
+        elif art == "einordnung":
+            _titel("🧭", titel or "Meine Einordnung")
+            st.markdown(inhalt)
+        elif art == "tun":
+            _titel("✅", "Was du tun kannst")
+            st.markdown(inhalt)
+            zeige_aktionen()
+        elif art == "quellen":
+            if t["offiziell"]:
+                st.caption("Offiziell nachprüfen: " + t["offiziell"])
+            with st.expander("Quellen"):
+                st.markdown(inhalt)
 
-    if t["mensch"]:
-        st.info("**Zeit für einen Menschen.** Kopiere diesen Satz in den Chat:")
-        st.code(t["mensch"], language=None)
+    if aktionen and not hat_tun:
+        _titel("✅", "Was du tun kannst")
+        zeige_aktionen()
+    if t["offiziell"] and not any(a == "quellen" for a, _, _ in abschnitte):
+        st.caption("Offiziell nachprüfen: " + t["offiziell"])
 
 
 def ics_datei(titel, start):
