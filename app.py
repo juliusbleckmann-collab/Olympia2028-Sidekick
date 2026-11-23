@@ -162,13 +162,6 @@ st.markdown(
     .sk-ampel.sk-gelb  { --sk-farbe: var(--sk-gelb); }
     .sk-ampel.sk-gruen { --sk-farbe: var(--sk-gruen); }
 
-    .sk-bot {
-        margin: 1rem 0 0.2rem 0; padding: 0.7rem 1rem;
-        background: var(--sk-grau); border: 1px solid var(--sk-grau-rand);
-        border-left: 4px solid #64748B; border-radius: 0.6rem;
-    }
-    .sk-bot .sk-bot-kopf { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; }
-    .sk-bot .sk-bot-text { font-size: 0.95rem; color: #334155; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -661,7 +654,7 @@ def zerlege(text):
 
 
 # Reihenfolge der Bloecke in der Antwort
-ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "tun": 3, "quellen": 4}
+ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "tun": 3, "quellen": 4}   # "bot": alter Block, wird nicht mehr gezeigt
 
 
 def _abschnitt_art(titel):
@@ -743,22 +736,12 @@ def nach_hilfe(t, hilfe):
     return t
 
 
-def _zitat_html(inhalt):
-    """Text des Unternehmens-Bots als grauer Kasten. Der Text ist fremdes Material und wird maskiert."""
-    zeilen = [re.sub(r"^\s*>\s?", "", z) for z in inhalt.split("\n")]
-    text = "<br>".join(html.escape(z) for z in zeilen if z.strip())
-    return (
-        '<div class="sk-bot"><div class="sk-bot-kopf">🤖 Das sagt der Unternehmens-Bot</div>'
-        f'<div class="sk-bot-text">{text}</div></div>'
-    )
-
-
 def _titel(symbol, text):
     st.markdown(f'<div class="sk-titel">{symbol} {html.escape(text)}</div>', unsafe_allow_html=True)
 
 
 def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
-    """Gliederung: Ampel-Karte, Zitatbox des Bots, Meine Einordnung, Was du tun kannst (mit Buttons), Quellen."""
+    """Gliederung: Ampel-Karte, Meine Einordnung, Was du tun kannst (mit Buttons), Quellen."""
     t = nach_hilfe(zerlege(text), hilfe)
     if t["farbe"]:
         klasse = {"GRÜN": "sk-gruen", "GELB": "sk-gelb", "ROT": "sk-rot"}[t["farbe"]]
@@ -788,7 +771,7 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
         if art == "einleitung":
             st.markdown(inhalt)
         elif art == "bot":
-            st.markdown(_zitat_html(inhalt), unsafe_allow_html=True)
+            continue   # Block "Das sagt der Unternehmens-Bot" gibt es nicht mehr; falls das Modell ihn doch schreibt, bleibt er unsichtbar
         elif art == "einordnung":
             _titel("🧭", titel or "Meine Einordnung")
             st.markdown(inhalt)
