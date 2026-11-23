@@ -39,6 +39,9 @@ MODI = [
 STUFEN = ["Nur bei Gefahr", "Normal", "Alles erklären"]
 SPRACHEN = ["Sehr einfach", "Einfach", "Fachlich"]
 HILFEN = ["Nur prüfen", "Prüfen + Tipps", "Prüfen + Entwürfe"]
+LAENGEN = ["Kurz", "Normal", "Ausführlich"]
+# Antwort-Limit je Laenge (Tokens): "Ausfuehrlich" braucht mehr Platz, "Kurz" spart Guthaben
+TOKENS_LAENGE = {"Kurz": 1000, "Normal": MAX_ANSWER_TOKENS, "Ausführlich": 2200}
 
 GMAIL_API = "https://gmail.googleapis.com/gmail/v1/users/me"
 GOOGLE_REVOKE = "https://oauth2.googleapis.com/revoke"
@@ -510,6 +513,14 @@ with st.sidebar:
             "Einfach": "Einfache Sätze, Fachwörter werden erklärt.",
             "Fachlich": "Genauer, mit Fachbegriffen und Paragrafen.",
         }[sprache]
+    )
+    laenge = st.select_slider("Wie lang soll die Antwort sein?", LAENGEN, value="Normal")
+    st.caption(
+        {
+            "Kurz": "Das Wichtigste in wenigen Sätzen.",
+            "Normal": "Ein ausgewogener Mittelweg.",
+            "Ausführlich": "Mehr Begründung und Beispiele.",
+        }[laenge]
     )
     hilfe = st.select_slider("Was soll ich tun?", HILFEN, value="Prüfen + Entwürfe")
     st.caption(
@@ -989,9 +1000,9 @@ elif mail_id and post_kann("lesen"):
 if neu:
     material, anzeige, logzeile = neu
     verbunden = f"{post_name()} verbunden" if st.session_state.post else "nicht verbunden"
-    text_fuer_modell = (f"[Modus: {modus}] [Stufe: {stufe}] [Sprache: {sprache}] [Hilfe: {hilfe}] "
+    text_fuer_modell = (f"[Modus: {modus}] [Stufe: {stufe}] [Sprache: {sprache}] [Länge: {laenge}] [Hilfe: {hilfe}] "
                         f"[Postfach: {verbunden}] [Heute: {date.today():%d.%m.%Y}]\n{material}")
-    protokolliere(f"{logzeile} (Modus: {modus}, Einmischen: {stufe}, Sprache: {sprache}, Hilfe: {hilfe}"
+    protokolliere(f"{logzeile} (Modus: {modus}, Einmischen: {stufe}, Sprache: {sprache}, Länge: {laenge}, Hilfe: {hilfe}"
                   + (", mit Screenshot)" if bild is not None else ")"))
 
     # Nachricht fuer die API, optional mit Bild
@@ -1026,7 +1037,7 @@ if neu:
 
                 response = client.chat.complete(
                     model=MODEL,
-                    max_tokens=MAX_ANSWER_TOKENS,
+                    max_tokens=TOKENS_LAENGE[laenge],
                     messages=[{"role": "system", "content": SYSTEM_PROMPT}] + verlauf,
                 )
                 answer = response.choices[0].message.content
