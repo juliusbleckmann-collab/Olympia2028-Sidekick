@@ -654,7 +654,7 @@ def zerlege(text):
 
 
 # Reihenfolge der Bloecke in der Antwort
-ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "tun": 3, "quellen": 4}   # "bot": alter Block, wird nicht mehr gezeigt
+ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "frage": 3, "tun": 4, "quellen": 5}   # "bot": alter Block, wird nicht mehr gezeigt
 
 
 def _abschnitt_art(titel):
@@ -663,6 +663,8 @@ def _abschnitt_art(titel):
         return "quellen"
     if re.search(r"\bbot\b|unternehmen|das sagt", t):
         return "bot"
+    if re.search(r"noch wissen|rückfrage|brauche ich", t):
+        return "frage"
     if "einordnung" in t:
         return "einordnung"
     if re.search(r"\btun\b|schritte|vorschlag", t):
@@ -775,6 +777,11 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
         elif art == "einordnung":
             _titel("🧭", titel or "Meine Einordnung")
             st.markdown(inhalt)
+        elif art == "frage":
+            with st.container(border=True):
+                _titel("❓", "Was ich noch wissen muss")
+                st.markdown(inhalt)
+                st.caption("Antworte einfach unten im Chat, gern mit einem Wort pro Frage.")
         elif art == "tun":
             _titel("✅", "Was du tun kannst")
             st.markdown(inhalt)

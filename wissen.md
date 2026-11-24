@@ -1,5 +1,7 @@
 Jeder Eintrag hat eine Nummer, einen Titel, die Quelle und den Stand (Tag, an dem die Quelle abgerufen wurde). Nenne diese Nummern in deinen Antworten, z. B. [3]. Was hier nicht steht, ist nicht geprüft: Kennzeichne es als (allgemeines Wissen) oder sag, dass du es nicht weißt. Die LA28-Quellen sind auf Englisch; die Auszüge sind sinngemäß übersetzt. Offizielle Infos können sich ändern.
 
+Wie verlässlich eine Quelle ist, steht in ihrer Quellenzeile: Gesetze und Verordnungen (BGB, StGB, UWG, PAngV, DSGVO, EU-Verordnungen) und Seiten von Behörden (Luftfahrt-Bundesamt, BSI, Auswärtiges Amt, Europäische Kommission) sind die Maßstäbe für Rechtsfragen. Verbraucherzentralen und das Europäische Verbraucherzentrum sind Beratungsstellen: gut für Ablauf und Praxis, aber keine Rechtsquelle. Die LA28-Bedingungen sind die geltenden Vertragsregeln des Anbieters, kein Gesetz. Zeitungsartikel, Blogs und Vergleichsportale sind keine Quellen dieser Wissensbasis.
+
 [1] Offizielle Verkaufswege für LA28-Tickets – Quelle: Ticketing Terms and Conditions, https://tickets.la28.org/help/terms/ und LA28-Hilfe-Center, https://get.support.tickets.la28.org (Stand: 13.11.2026)
 - Offizielle Tickets gibt es nur auf den offiziellen LA28-Plattformen: tickets.la28.org, die offizielle LA28-Ticket-App sowie die Seiten und Apps des offiziellen Ticketanbieters AXS und Eventim (axs.com, eventim.com, eventim.us).
 - Ein einzelnes Ticket wird nur über diesen Ticketanbieter verkauft.
@@ -68,7 +70,7 @@ Jeder Eintrag hat eine Nummer, einen Titel, die Quelle und den Stand (Tag, an de
 - Flug plus Hotel ist deshalb in der Regel eine Pauschalreise.
 - Hotel plus Ticket (oder Flug plus Ticket) ist nur dann eine Pauschalreise, wenn das Ticket mindestens 25 Prozent des Gesamtwerts ausmacht oder ein wesentliches Merkmal des Pakets ist oder so beworben wird (§ 651a Abs. 4).
 - Keine Pauschalreise sind Tagesreisen ohne Übernachtung bis 500 Euro.
-- Was bei Mängeln oder Absage gilt, regeln die §§ 651a ff. BGB; die Einzelheiten stehen nicht in der Wissensbasis. Verweise dafür an die Verbraucherzentrale.
+- Rücktritt, Mängel und Erstattung bei Pauschalreisen stehen in [23]; weitere Einzelheiten der §§ 651a ff. BGB stehen nicht in der Wissensbasis. Verweise dafür an die Verbraucherzentrale.
 - Das BGB gilt bei Veranstaltern in Deutschland. Offizielle Olympia-Pakete darf nur On Location verkaufen [1].
 
 [10] Unterkunft und Anreise – Quelle: Ticketing Terms and Conditions, https://tickets.la28.org/help/terms/ und LA28-Hilfe-Center (Stand: 13.11.2026)
@@ -150,3 +152,104 @@ Jeder Eintrag hat eine Nummer, einen Titel, die Quelle und den Stand (Tag, an de
 - Eine ESTA gilt für beliebig viele Einreisen, jeweils für höchstens 90 Tage innerhalb von zwei Jahren. Die US-Behörden empfehlen, sie mindestens 72 Stunden vor Reiseantritt zu beantragen. Sie kostet eine Gebühr; die Höhe nennt die Seite nicht.
 - Zu Visumgebühr und Dauer eines Visumverfahrens steht auf der Seite nichts. Die Einreisebestimmungen können sich kurzfristig ändern. Verbindliche Auskunft geben nur die Vertretungen der USA.
 - Ein Ticket ist keine Garantie für ein Visum oder die Einreise [10].
+
+[20] Fluggastrechte: Wann sie gelten – Quelle: Europäische Kommission, Your Europe, „Fluggastrechte“ (Rechtsgrundlage: Verordnung (EG) Nr. 261/2004), https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_de.htm (Stand: 24.11.2026)
+- Die EU-Fluggastrechte gelten bei drei Arten von Flügen: Flüge innerhalb der EU (jede Fluggesellschaft), Flüge aus einem Nicht-EU-Land in die EU (nur, wenn die Fluggesellschaft aus der EU ist) und Flüge aus der EU in ein Nicht-EU-Land (jede Fluggesellschaft).
+- Voraussetzung: Für dieselbe Reise wurden noch keine Leistungen (Entschädigung, anderweitige Beförderung, Unterstützung) nach dem Recht eines Nicht-EU-Landes gewährt.
+- „EU“ meint die 27 EU-Länder samt einiger Gebiete (z. B. Kanarische Inseln, Madeira, Azoren, Réunion), nicht die Färöer. Die Regeln gelten auch für Flüge aus und nach Island, Norwegen und der Schweiz.
+- Hin- und Rückflug gelten immer als zwei eigenständige Flüge, auch wenn sie zusammen gebucht wurden. Haftbar ist nur das ausführende Luftfahrtunternehmen, also die Fluggesellschaft, die den Flug durchführt, nicht unbedingt die, bei der das Ticket gekauft wurde.
+- Folgerung für Los Angeles: Ein Hinflug ab Deutschland oder einem anderen EU-Land fällt unter die EU-Regeln, egal welche Airline fliegt. Ein Rückflug ab den USA fällt nur darunter, wenn die Airline aus der EU ist. Frag deshalb immer nach Abflugort und ausführender Airline. Für andere Abflugländer steht hier nichts.
+
+[21] Fluggastrechte: Annullierung – Quelle: Europäische Kommission, Your Europe, „Fluggastrechte“ (Rechtsgrundlage: Verordnung (EG) Nr. 261/2004), https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_de.htm (Stand: 24.11.2026)
+- Wird ein Flug annulliert, muss die Fluggesellschaft einmalig die Wahl lassen zwischen: Erstattung des Flugscheinpreises (bei einem Anschlussflug zusätzlich Rückflug zum Startflughafen), anderweitiger Beförderung zum Ziel zum frühestmöglichen Zeitpunkt oder anderweitiger Beförderung zu einem späteren, genehmen Zeitpunkt. Wer sich entschieden hat, verliert die anderen beiden Optionen. Dazu kommt Unterstützung am Flughafen.
+- Entschädigung zusätzlich zur Erstattung: Sie steht zu, wenn die Person weniger als 14 Tage vor dem geplanten Abflug über die Annullierung informiert wurde. Die Fluggesellschaft muss nachweisen, dass und wann sie die Person persönlich informiert hat.
+- Keine Entschädigung gibt es, wenn die Person mehr als 14 Tage vorher informiert wurde, oder zwischen 14 und 7 Tagen vorher und ihr eine Alternative angeboten wurde, die höchstens zwei Stunden früher abfliegt und das Ziel weniger als vier Stunden nach der geplanten Ankunft erreicht. Für Fälle mit weniger als sieben Tagen Vorankündigung gelten eigene Grenzen, die nicht in der Wissensbasis stehen.
+- Höhe der Entschädigung: 250 € bis 1500 km, 400 € über 1500 km innerhalb der EU und zwischen 1500 und 3500 km bei anderen Flügen, 600 € über 3500 km.
+- Keine Entschädigung, wenn die Annullierung auf außergewöhnliche Umstände zurückgeht, die sich auch mit allen zumutbaren Maßnahmen nicht hätten vermeiden lassen. Das muss die Fluggesellschaft nachweisen.
+- Nicht belegt: Eine feste Frist in Tagen für die Auszahlung der Erstattung nennt die Seite bei Annullierung nicht (die Sieben-Tage-Angabe dort betrifft die Herabstufung in eine niedrigere Klasse). Nenne bei Annullierung deshalb keine feste Zahl, sondern eine angemessene Frist, die die Person selbst setzt.
+- Nicht belegt: Zu Gutscheinen statt Geld steht auf der Seite nichts. Behaupte daher nicht, dass die Person einen Gutschein ablehnen darf, sondern sag, dass die Seite dazu nichts sagt und die Wahl bei ihr liegt.
+
+[22] Fluggastrechte durchsetzen: Reihenfolge der Schritte – Quellen: Luftfahrt-Bundesamt, „Beschwerdeverfahren“ (https://www.lba.de/DE/Fluggastrechte/_functions_Kacheln/Kachel_4/Beschwerdeverfahren_Node.html) und „LBA informiert zur Schlichtung im Luftverkehr“ (https://www.lba.de/DE/Fluggastrechte/Schlichtung/Schlichtung_node.html), Europäische Kommission, Your Europe, „Fluggastrechte“, §§ 57 bis 57c LuftVG (Stand: 24.11.2026)
+- Schritt 1: Beschwerde bei der Fluggesellschaft, am besten schriftlich mit Buchungsunterlagen und Beleg der Kosten.
+- Schritt 2, bei keiner oder unbefriedigender Antwort (Your Europe nennt zwei Monate): Schlichtung. In Deutschland führt die Schlichtungsstelle Reise & Verkehr e.V. (früher „söp“) die Schlichtung für Fluggesellschaften durch, die ihrem Trägerverein angehören, https://soep-online.de. Beteiligt sich eine Airline nicht, ist die Schlichtungsstelle beim Bundesamt für Justiz zuständig (§ 57a LuftVG). Die Schlichtung kostet Fluggäste regelmäßig nichts. Sie setzt voraus, dass man sich vorher erfolglos an die Airline gewandt hat. Sie gilt für Ansprüche von Verbrauchern bis 5.000 €, unter 10 € findet sie nicht statt, Geschäftsreisende sind ausgeschlossen. Der Vorschlag kommt innerhalb von 90 Tagen und ist für niemanden bindend.
+- Parallel oder danach: Beschwerde beim Luftfahrt-Bundesamt (LBA). Es ist die nationale Durchsetzungs- und Beschwerdestelle für die Verordnungen (EG) Nr. 261/2004 und Nr. 1107/2006. Es prüft mögliche Verstöße und kann ein Bußgeldverfahren einleiten. Es setzt aber keine Geldansprüche der Fluggäste durch: Das muss die Person selbst tun (Schlichtung, Mahnverfahren, Klage). Es gibt keine gesetzliche Bearbeitungsfrist; die EU-Kommission nennt als Richtwert drei bis vier Monate für klare, bis sechs Monate für komplexe Fälle.
+- Gericht: Zuständig sind laut Your Europe die Gerichte des EU-Landes, in dem der Flug angekommen oder abgeflogen ist. Fristen richten sich nach den nationalen Verjährungsregeln (siehe [31]).
+- Das LBA ist für Beschwerden in Deutschland zuständig. Für Vorfälle in anderen Ländern gilt die Behörde dort.
+
+[23] Pauschalreise: Rücktritt, Mängel, Erstattung – Quelle: §§ 651h und 651i BGB, https://www.gesetze-im-internet.de/bgb/__651h.html und https://www.gesetze-im-internet.de/bgb/__651i.html (Stand: 24.11.2026)
+- Gilt nur, wenn es eine Pauschalreise ist [9] und der Veranstalter deutschem Recht unterliegt.
+- Rücktritt durch die Person (§ 651h Abs. 1 und 2): Vor Reisebeginn jederzeit möglich. Der Veranstalter verliert den Anspruch auf den Reisepreis, darf aber eine angemessene Entschädigung verlangen. Pauschalen im Vertrag müssen sich an Zeitraum bis zum Reisebeginn, ersparten Aufwendungen und anderweitiger Verwendung orientieren. Auf Verlangen muss der Veranstalter die Höhe begründen.
+- Keine Entschädigung (§ 651h Abs. 3), wenn am Reiseziel oder in dessen unmittelbarer Nähe unvermeidbare, außergewöhnliche Umstände die Reise oder die Beförderung dorthin erheblich beeinträchtigen.
+- Rücktritt durch den Veranstalter (§ 651h Abs. 4): bei zu wenig Anmeldungen (spätestens 20 Tage vor Reisebeginn bei mehr als sechs Tagen Dauer, 7 Tage bei zwei bis sechs Tagen, 48 Stunden bei weniger als zwei Tagen) oder wegen unvermeidbarer, außergewöhnlicher Umstände. Dann verliert er den Anspruch auf den Reisepreis.
+- Erstattung (§ 651h Abs. 5): Muss der Veranstalter den Reisepreis zurückzahlen, muss er das unverzüglich tun, auf jeden Fall innerhalb von 14 Tagen nach dem Rücktritt.
+- Reisemängel (§ 651i): Die Reise muss die vereinbarte Beschaffenheit haben. Bei einem Mangel kann die Person Abhilfe verlangen, selbst Abhilfe schaffen und Aufwendungen ersetzt verlangen, Ersatzleistungen verlangen, den Vertrag kündigen, den Preis mindern und Schadensersatz verlangen. Die Voraussetzungen stehen in den §§ 651k bis 651n BGB; sie stehen nicht in der Wissensbasis.
+
+[24] Widerruf: Frist und Rückzahlung – Quelle: §§ 355 und 357 BGB, https://www.gesetze-im-internet.de/bgb/__355.html und https://www.gesetze-im-internet.de/bgb/__357.html (Stand: 24.11.2026)
+- Wo ein Widerrufsrecht besteht, beträgt die Frist 14 Tage und beginnt mit Vertragsschluss, soweit das Gesetz nichts anderes bestimmt (§ 355 Abs. 2). Für Tickets mit festem Termin und Unterkünfte mit festem Termin gibt es keins [5].
+- Der Widerruf braucht keine Begründung. Der Entschluss muss eindeutig hervorgehen. Zur Fristwahrung genügt die rechtzeitige Absendung (§ 355 Abs. 1).
+- Die Rückzahlung muss spätestens nach 14 Tagen erfolgen (§ 357 Abs. 1) und über dasselbe Zahlungsmittel, das die Person genutzt hat, außer es ist ausdrücklich etwas anderes vereinbart und es entstehen keine Kosten (§ 357 Abs. 3). Das gilt für Fernabsatzverträge, also Online-Käufe.
+- Bei Waren darf der Händler die Rückzahlung verweigern, bis er die Ware zurückhat oder die Person nachweist, dass sie abgeschickt ist (§ 357 Abs. 4). Die Rücksendekosten trägt die Person, wenn der Händler vorher darüber informiert hat (§ 357 Abs. 5).
+- Beginn der Frist bei Waren und Sonderfälle stehen nicht in der Wissensbasis.
+
+[25] Gekaufte Waren, z. B. Fanartikel: Mängel – Quelle: §§ 437 und 438 BGB, https://www.gesetze-im-internet.de/bgb/__437.html und https://www.gesetze-im-internet.de/bgb/__438.html (Stand: 24.11.2026)
+- Ist eine gekaufte Sache mangelhaft, kann die Käuferin oder der Käufer Nacherfüllung verlangen (§ 439 BGB), vom Vertrag zurücktreten oder den Preis mindern und unter Voraussetzungen Schadensersatz verlangen (§ 437).
+- Verjährung: In der Regel zwei Jahre (§ 438 Abs. 1 Nr. 3), beginnend mit der Ablieferung der Sache (§ 438 Abs. 2). Hat der Verkäufer den Mangel arglistig verschwiegen, gilt die regelmäßige Verjährungsfrist von drei Jahren (§ 438 Abs. 3, § 195).
+- Das gilt bei Verkäufern in Deutschland. Besondere Regeln für Verbraucherkäufe stehen nicht in der Wissensbasis. Für Tickets gilt das nicht, denn Gewährleistung betrifft Sachen, nicht Tickets.
+
+[26] Preis, Zusatzkosten und Bestellbutton – Quellen: § 3 PAngV, https://www.gesetze-im-internet.de/pangv_2022/__3.html, § 312a BGB, https://www.gesetze-im-internet.de/bgb/__312a.html, § 312j BGB, https://www.gesetze-im-internet.de/bgb/__312j.html (Stand: 24.11.2026)
+- Gesamtpreis (§ 3 PAngV): Wer als Unternehmer Verbrauchern Waren oder Leistungen anbietet oder mit Preisen wirbt, muss den Gesamtpreis nennen. Wird ein Preis aufgegliedert, muss der Gesamtpreis hervorgehoben sein.
+- Zusatzzahlungen (§ 312a Abs. 3 BGB): Eine Vereinbarung über eine Zahlung über das Entgelt für die Hauptleistung hinaus gilt nur, wenn sie ausdrücklich getroffen wird. Im Online-Handel wird sie nicht Vertragsbestandteil, wenn der Unternehmer sie über eine Voreinstellung herbeiführt, etwa ein vorausgewähltes Kästchen. Bleibt der Rest des Vertrags bestehen (Abs. 6).
+- Zahlungsmittel-Entgelt (§ 312a Abs. 4 BGB): Ein Aufschlag für ein Zahlungsmittel ist unwirksam, wenn es keine gängige und zumutbare unentgeltliche Zahlungsmöglichkeit gibt oder das Entgelt über die tatsächlichen Kosten des Unternehmers hinausgeht.
+- Bestellbutton (§ 312j Abs. 3 und 4 BGB): Bei kostenpflichtigen Online-Bestellungen muss der Bestellvorgang so gestaltet sein, dass die Person ausdrücklich bestätigt, dass sie zahlt. Ein Button muss mit „zahlungspflichtig bestellen“ oder einer eindeutigen Formulierung beschriftet sein. Ohne das kommt der Vertrag nicht zustande.
+- Das gilt bei Unternehmern, die deutschem Recht unterliegen. Ob es bei einem US-Anbieter wie LA28 gilt, ist offen [14].
+
+[27] Zeitdruck und Lockangebote – Quelle: Anhang zu § 3 Abs. 3 UWG (Gesetz gegen den unlauteren Wettbewerb), https://www.gesetze-im-internet.de/uwg_2004/anhang.html (Stand: 24.11.2026)
+- Gegenüber Verbrauchern stets unzulässig ist die unwahre Angabe, eine Ware oder Leistung sei nur für einen sehr begrenzten Zeitraum verfügbar, um eine sofortige Entscheidung zu erreichen, ohne dass Zeit und Gelegenheit bleibt, sich zu informieren (Nr. 7). Ein Countdown oder „nur heute“ ist also nur dann verboten, wenn die Angabe unwahr ist.
+- Lockangebote (Nr. 5): Ein Angebot zu einem bestimmten Preis ist unzulässig, wenn der Unternehmer nicht aufklärt, dass er Grund zur Annahme hat, die Ware oder Leistung nicht für einen angemessenen Zeitraum in angemessener Menge zu diesem Preis liefern zu können. Bei einer Bevorratung unter zwei Tagen muss er die Angemessenheit nachweisen.
+- Köder und Wechsel (Nr. 6): Ein Angebot zu einem bestimmten Preis ist unzulässig, wenn der Unternehmer dann etwas anderes verkaufen will, indem er eine fehlerhafte Ausführung vorführt, sich weigert zu zeigen, was er beworben hat, oder sich weigert, Bestellungen anzunehmen oder in vertretbarer Zeit zu liefern.
+- Das UWG ist deutsches Recht. Ob es bei einem Anbieter im Ausland greift, ist im Einzelfall offen [14]. Ob ein Angebot unwahr ist, kann der Sidekick nicht prüfen; er kann nur auf das Warnsignal hinweisen.
+
+[28] Abos kündigen: Kündigungsbutton – Quelle: § 312k BGB, https://www.gesetze-im-internet.de/bgb/__312k.html (Stand: 24.11.2026)
+- Wer auf einer Webseite einen Vertrag mit Dauerschuldverhältnis und Entgelt abschließen lässt (z. B. ein Streaming-Abo), muss dort auch eine Kündigungsschaltfläche bereitstellen. Sie ist mit „Verträge hier kündigen“ oder einer eindeutigen Formulierung beschriftet und führt direkt zu einer Bestätigungsseite mit einem Button „jetzt kündigen“.
+- Auf der Bestätigungsseite gibt die Person Art der Kündigung, Identität, Vertrag, Zeitpunkt und einen Weg für die Bestätigung an. Der Unternehmer muss Inhalt, Datum und Uhrzeit des Zugangs sofort in Textform bestätigen (§ 312k Abs. 4).
+- Fehlen die Schaltflächen oder die Bestätigungsseite, kann die Person den Vertrag jederzeit und ohne Kündigungsfrist kündigen (§ 312k Abs. 6).
+- Nicht erfasst: Verträge über Finanzdienstleistungen und Verträge, für deren Kündigung das Gesetz eine strengere Form als die Textform verlangt (§ 312k Abs. 1).
+
+[29] AGB: überraschende und unfaire Klauseln – Quelle: §§ 305c und 307 BGB, https://www.gesetze-im-internet.de/bgb/__305c.html und https://www.gesetze-im-internet.de/bgb/__307.html (Stand: 24.11.2026)
+- Überraschende Klauseln (§ 305c Abs. 1): Bestimmungen in Allgemeinen Geschäftsbedingungen, die so ungewöhnlich sind, dass man mit ihnen nicht zu rechnen braucht, werden nicht Vertragsbestandteil. Zweifel bei der Auslegung gehen zulasten des Verwenders (Abs. 2).
+- Inhaltskontrolle (§ 307): AGB-Bestimmungen sind unwirksam, wenn sie den Vertragspartner entgegen Treu und Glauben unangemessen benachteiligen. Das kann sich auch daraus ergeben, dass eine Bestimmung nicht klar und verständlich ist. Im Zweifel ist eine unangemessene Benachteiligung anzunehmen, wenn eine Klausel mit wesentlichen Grundgedanken des Gesetzes nicht zu vereinbaren ist oder wesentliche Vertragsrechte so einschränkt, dass der Vertragszweck gefährdet ist (Abs. 2).
+- Die §§ 308 und 309 BGB enthalten weitere Klauselverbote; sie stehen nicht in der Wissensbasis.
+- Das gilt, wenn deutsches Recht anwendbar ist. Die LA28-Bedingungen unterliegen US-Recht [14]; § 307 BGB lässt sich darauf nicht einfach übertragen.
+
+[30] Zahlung zurückholen: gesetzliche Grundlagen – Quellen: §§ 675u, 675x und 676b BGB, https://www.gesetze-im-internet.de/bgb/__675u.html, https://www.gesetze-im-internet.de/bgb/__675x.html, https://www.gesetze-im-internet.de/bgb/__676b.html (Stand: 24.11.2026)
+- Nicht autorisierte Zahlung (§ 675u): Die Bank muss den Betrag unverzüglich erstatten, spätestens bis zum Ende des Geschäftstags nach der Meldung. Hat sie einer Behörde berechtigte Gründe für einen Betrugsverdacht gegen den Zahler schriftlich mitgeteilt, muss sie prüfen und erstatten, wenn der Verdacht sich nicht bestätigt.
+- Meldefrist (§ 676b): Die Bank unverzüglich informieren, spätestens 13 Monate nach der Belastung. Danach sind die Ansprüche ausgeschlossen.
+- SEPA-Basislastschrift (§ 675x Abs. 2 und 4): Die Person kann ohne Angabe von Gründen Erstattung verlangen, innerhalb von acht Wochen ab Belastung. Die Bank muss innerhalb von zehn Geschäftstagen erstatten oder die Gründe für die Ablehnung nennen und auf Beschwerde- und Schlichtungsmöglichkeiten hinweisen (Abs. 5).
+- Einschätzung (allgemeines Wissen): Hat die Person die Zahlung selbst ausgelöst, z. B. eine Überweisung an einen Fake-Shop, gilt sie in der Regel als autorisiert, und § 675u passt dann meist nicht. Ob ein Fall „nicht autorisiert“ ist, entscheidet die Bank im Einzelfall. Chargeback und PayPal beruhen nicht auf diesen Paragrafen [16].
+
+[31] Verjährung und Fristen – Quellen: § 195 BGB, https://www.gesetze-im-internet.de/bgb/__195.html; Universalschlichtungsstelle des Bundes, Hinweis zur Verjährung, https://www.universalschlichtungsstelle.de (Stand: 24.11.2026)
+- Die regelmäßige Verjährungsfrist beträgt drei Jahre (§ 195 BGB). Wann sie beginnt, regelt § 199 BGB; das steht nicht in der Wissensbasis.
+- Für Mängelrechte bei gekauften Sachen gilt meist zwei Jahre [25].
+- Ein Antrag bei einer Schlichtungsstelle hemmt die Verjährung nur unter bestimmten Voraussetzungen (§ 204 Abs. 1 Nr. 4 BGB). Die Universalschlichtungsstelle rät bei drohender Verjährung zur Vorsicht und gegebenenfalls zu rechtlicher Beratung. Bei knappen Fristen also nicht nur auf die Schlichtung verlassen.
+- Zahlungsfristen bei Rückbuchung (8 Wochen, 13 Monate) stehen in [30].
+
+[32] Betrug: Strafbarkeit und Anzeige – Quelle: § 263 StGB, https://www.gesetze-im-internet.de/stgb/__263.html (Stand: 24.11.2026)
+- Betrug begeht, wer in der Absicht, sich oder einem Dritten einen rechtswidrigen Vermögensvorteil zu verschaffen, das Vermögen eines anderen dadurch beschädigt, dass er falsche Tatsachen vorspiegelt oder wahre unterdrückt und dadurch einen Irrtum erregt oder unterhält.
+- Strafe: Freiheitsstrafe bis zu fünf Jahren oder Geldstrafe. Auch der Versuch ist strafbar. In besonders schweren Fällen, etwa bei gewerbsmäßigem oder bandenmäßigem Handeln, drohen sechs Monate bis zehn Jahre Freiheitsstrafe.
+- Ob in einem Einzelfall ein Betrug vorliegt, entscheiden Polizei, Staatsanwaltschaft und Gerichte, nicht der Sidekick. Er kann Warnsignale benennen und auf die Anzeige bei der Polizei hinweisen [11].
+
+[33] Phishing und Datenabfragen erkennen – Quelle: Bundesamt für Sicherheit in der Informationstechnik (BSI), „Passwortdiebstahl durch Phishing“ und „Schutz gegen Phishing“, https://www.bsi.bund.de/dok/passwortdiebstahl-durch-phishing (Stand: 24.11.2026)
+- Phishing: Nachrichten, die sich als Bank, Internetanbieter oder anderer Dienstleister tarnen und dazu auffordern, persönliche Daten oder Zugangsdaten zu „aktualisieren“ oder zu bestätigen, oft mit einem erfundenen Anlass wie ablaufender Karte oder Sicherheitsvorfall. Das BSI nennt gezieltes Phishing eine Straftat.
+- Grundregel: Kein Kreditkarteninstitut und kein seriöser Anbieter fordert per E-Mail dazu auf, vertrauliche Zugangsdaten preiszugeben, auch nicht der Sicherheit wegen.
+- Nicht auf Links in verdächtigen Mails klicken, sondern die Seite über die Startseite des Anbieters aufrufen. Im Zweifel telefonisch beim Anbieter nachfragen.
+- Keine Passwörter, Kreditkarten- oder Transaktionsnummern per E-Mail oder in unverschlüsselte Webseiten eingeben. Keine Downloads aus zweifelhaften Mails starten und keine Anhänge verdächtiger Mails öffnen.
+- Kontoumsätze regelmäßig prüfen, damit unbefugte Abbuchungen schneller auffallen. Geräte und Apps aktuell halten.
+- Das gilt auch für SMS, QR-Codes und Anrufe, mit denen Betrüger dieselben Ziele verfolgen.
+
+[34] Wer hilft wobei – Quellen: Universalschlichtungsstelle des Bundes, https://www.universalschlichtungsstelle.de; Schlichtungsstelle Reise & Verkehr e.V., https://soep-online.de; Luftfahrt-Bundesamt, https://www.lba.de/DE/Fluggastrechte/Fluggastrechte_node.html (Stand: 24.11.2026)
+- Universalschlichtungsstelle des Bundes (Zentrum für Schlichtung e.V., Kehl): neutrale Schlichtung zwischen Verbrauchern und Unternehmen. Sie wird aktiv, wenn ein erster Versuch einer direkten Einigung erfolglos war. Zurzeit kann es bis zu vier Monate dauern, bis ein Antrag bearbeitet wird. Beachte die Verjährung [31].
+- Schlichtungsstelle Reise & Verkehr e.V. (früher „söp“): kostenfreie Schlichtung bei Streit mit Reise- und Verkehrsunternehmen, die Mitglied sind. Sie nennt Flug, Bahn, Fernbus, Schiff und Reise als Bereiche. Mitglieder prüft man auf ihrer Seite. Für Flüge siehe [22].
+- Luftfahrt-Bundesamt (LBA): Beschwerdestelle für Fluggastrechte, setzt keine Geldansprüche durch [22].
+- Europäisches Verbraucherzentrum: nur bei Unternehmen in anderen EU-Ländern, Island, Norwegen und dem Vereinigten Königreich [15].
+- Verbraucherzentrale: Beratung bei Händlern in Deutschland [11].
+- Polizei: bei Betrug [32].
