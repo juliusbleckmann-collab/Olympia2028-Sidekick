@@ -634,8 +634,8 @@ def zerlege(text):
         # Marker vertragen Einrueckung, Listenzeichen, Fettschrift und Leerzeichen.
         # Fehlt ---ENDE---, endet der Entwurf vor "Quellen", "Offiziell nachpruefen" oder am Textende.
         muster = (
-            r"^[ \t>*_`#\-\d.]*(?:-{3}[ \t]*)?" + name.upper() + r"(?:[ \t]*-{3})?[ \t*_`]*\n?(.*?)\s*"
-            r"(?:^[ \t>*_`]*(?:-{3}[ \t]*)?ENDE(?:[ \t]*-{3})?[ \t*_`]*$"
+            r"^[ \t>*_`#\-\d.]*-{3}[ \t]*" + name.upper() + r"[ \t]*-{3}[ \t*_`]*\n?(.*?)\s*"
+            r"(?:^[ \t>*_`]*-{3}[ \t]*ENDE[ \t]*-{3}[ \t*_`]*$"
             r"|(?=^[ \t#*]*Quellen\b)|(?=^[ \t*]*Offiziell nachprüfen)|\Z)"
         )
         block = re.search(muster, text, re.DOTALL | re.MULTILINE)
@@ -648,15 +648,10 @@ def zerlege(text):
         teile["offiziell"] = off.group(1).strip()
         text = text[: off.start()] + text[off.end():]
 
-    text = re.sub(r"^[ \t*_>-]*Keine Rechtsberatung[^\n]*$", "", text, flags=re.MULTILINE | re.IGNORECASE)
-
     teile["text"] = bereinige_markdown(text)
     teile["abschnitte"] = gliedere(teile["text"])
     return teile
 
-
-HINWEIS_RECHT = "Keine Rechtsberatung – bitte selbst prüfen."
-MENSCH_STANDARD = "Bitte verbinden Sie mich mit einem menschlichen Mitarbeiter."
 
 # Reihenfolge der Bloecke in der Antwort
 ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "frage": 3, "tun": 4, "quellen": 5}   # "bot": alter Block, wird nicht mehr gezeigt
@@ -699,7 +694,7 @@ def gliedere(text):
 
 
 _STRICH_ZEILE = re.compile(r"^[ \t]*(?:-{3,}|={3,}|\*{3,}|_{3,})[ \t]*$")
-_MARKER_ZEILE = re.compile(r"^[ \t>*_`#]*(?:-{3}[ \t]*)?(?:ANTWORT|MAIL|ERINNERUNG|ENDE)(?:[ \t]*-{3})?[ \t*_`:]*$")
+_MARKER_ZEILE = re.compile(r"^[ \t>*_`]*-{3}[ \t]*(?:ANTWORT|MAIL|ERINNERUNG|ENDE)[ \t]*-{3}[ \t*_`]*$", re.IGNORECASE)
 _LISTE_MIT_RAUTE = re.compile(r"^([ \t]*(?:[-*+]|\d{1,2}[.)])[ \t]+)#{1,6}[ \t]*(.*)$")
 _UEBERSCHRIFT = re.compile(r"^[ \t]{0,3}#{1,6}[ \t]*(.*?)[ \t#]*$")
 
@@ -750,8 +745,6 @@ def _titel(symbol, text):
 def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
     """Gliederung: Ampel-Karte, Meine Einordnung, Was du tun kannst (mit Buttons), Quellen."""
     t = nach_hilfe(zerlege(text), hilfe)
-    if t["farbe"] == "ROT" and hilfe != "Nur prüfen" and not t["mensch"]:
-        t["mensch"] = MENSCH_STANDARD   # bei ROT immer ein kopierbarer Satz, auch wenn das Modell ihn vergisst
     if t["farbe"]:
         klasse = {"GRÜN": "sk-gruen", "GELB": "sk-gelb", "ROT": "sk-rot"}[t["farbe"]]
         st.markdown(
@@ -804,8 +797,6 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
         zeige_aktionen()
     if t["offiziell"] and not any(a == "quellen" for a, _, _ in abschnitte):
         st.caption("Offiziell nachprüfen: " + t["offiziell"])
-    if t["farbe"] == "ROT":
-        st.caption(HINWEIS_RECHT)
 
 
 def ics_datei(titel, start):
