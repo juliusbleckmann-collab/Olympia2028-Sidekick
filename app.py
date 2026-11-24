@@ -12,6 +12,8 @@ from email.message import EmailMessage
 import requests
 import streamlit as st
 
+import sidekick_logik as logik
+
 try:
     from mistralai.client import Mistral  # neues SDK
 except ImportError:
@@ -24,7 +26,7 @@ MODEL = "mistral-small-latest"   # kann Text und Bilder; fuer die Demo ggf. "mis
 MAX_MESSAGES = 40                # Nachrichten pro Sitzung (schuetzt das Guthaben)
 MAX_INPUT_CHARS = 6000           # eingefuegte Chats/AGB duerfen laenger sein
 MAX_ANSWER_TOKENS = 1500         # Antwort + Entwurf + Quellen passen sonst nicht
-MAX_WISSEN_CHARS = 60000
+MAX_WISSEN_CHARS = 150000
 MAX_BILD_BYTES = 4 * 1024 * 1024
 MAX_TREFFER = 8
 
@@ -41,7 +43,7 @@ SPRACHEN = ["Sehr einfach", "Einfach", "Fachlich"]
 HILFEN = ["Nur prüfen", "Prüfen + Tipps", "Prüfen + Entwürfe"]
 LAENGEN = ["Kurz", "Normal", "Ausführlich"]
 # Antwort-Limit je Laenge (Tokens): "Ausfuehrlich" braucht mehr Platz, "Kurz" spart Guthaben
-TOKENS_LAENGE = {"Kurz": 1000, "Normal": MAX_ANSWER_TOKENS, "Ausführlich": 2200}
+TOKENS_LAENGE = {"Kurz": 1200, "Normal": MAX_ANSWER_TOKENS + 200, "Ausführlich": 2500}   # inkl. Block ---GELESEN---
 
 GMAIL_API = "https://gmail.googleapis.com/gmail/v1/users/me"
 GOOGLE_REVOKE = "https://oauth2.googleapis.com/revoke"
@@ -65,10 +67,10 @@ def geheim(name):
         return ""
 
 
-SYSTEM_PROMPT = lade_datei("prompt.md")
-WISSEN = lade_datei("wissen.md", MAX_WISSEN_CHARS)
-if WISSEN:
-    SYSTEM_PROMPT += "\n\n## Wissensbasis\n" + WISSEN
+# Der Prompt enthaelt die Regeln. Die Wissensbasis wird je Anfrage gefiltert (siehe sidekick_logik.py):
+# Das Modell sieht nur die Eintraege, die zur Frage passen, und eine verbindliche Rechtspruefung.
+PROMPT_BASIS = lade_datei("prompt.md")
+WISSEN_KOPF, WISSEN_EINTRAEGE = logik.parse_wissen(lade_datei("wissen.md", MAX_WISSEN_CHARS))
 
 APP_URL = geheim("APP_URL").rstrip("/")          # z. B. http://localhost:8501
 
@@ -611,13 +613,32 @@ if not geheim("MISTRAL_API_KEY"):
 client = Mistral(api_key=geheim("MISTRAL_API_KEY"))
 
 
+def chat(messages, max_tokens, json_modus=False, temperatur=None):
+    """Ein Aufruf des Sprachmodells. Gibt den Antworttext zurueck."""
+    args = {"model": MODEL, "messages": messages, "max_tokens": max_tokens}
+    if json_modus:
+        args["response_format"] = {"type": "json_object"}
+    if temperatur is not None:
+        args["temperature"] = temperatur
+    return client.chat.complete(**args).choices[0].message.content
+
+
+def _nur_text(inhalt):
+    """Text einer Nachricht ohne die Einstellungs-Markierungen der ersten Zeile."""
+    t = inhalt if isinstance(inhalt, str) else inhalt[0]["text"]
+    return t.split("\n", 1)[1] if t.startswith("[Modus:") and "\n" in t else t
+
+
 # ---------------------------------------------------------------
 # Antwort aufbereiten: Ampel, Entwuerfe, MENSCH-Zeile
 # ---------------------------------------------------------------
 def zerlege(text):
     """Trennt die Markierungen aus der Modellantwort. Vertraegt kleine Abweichungen
     (Fettschrift, Kleinschreibung, fehlendes ---ENDE--- bei abgeschnittener Antwort)."""
-    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "erinnerung": None, "mensch": None, "offiziell": ""}
+    teile = {"farbe": None, "fazit": "", "antwort": None, "mail": None, "erinnerung": None, "mensch": None,
+             "offiziell": "", "gelesen": ""}
+
+    text, teile["gelesen"] = logik.trenne_gelesen(text)
 
     m = re.match(r"\s*[*#\s]*AMPEL\s*:?[*\s]*:?\s*(GRÜN|GRUEN|GELB|ROT)[*\s]*[–—-]?\s*(.*)", text, re.IGNORECASE)
     if m:
@@ -634,8 +655,8 @@ def zerlege(text):
         # Marker vertragen Einrueckung, Listenzeichen, Fettschrift und Leerzeichen.
         # Fehlt ---ENDE---, endet der Entwurf vor "Quellen", "Offiziell nachpruefen" oder am Textende.
         muster = (
-            r"^[ \t>*_`#\-\d.]*-{3}[ \t]*" + name.upper() + r"[ \t]*-{3}[ \t*_`]*\n?(.*?)\s*"
-            r"(?:^[ \t>*_`]*-{3}[ \t]*ENDE[ \t]*-{3}[ \t*_`]*$"
+            r"^[ \t>*_`#\-\d.]*(?:-{3}[ \t]*)?" + name.upper() + r"(?:[ \t]*-{3})?[ \t*_`]*\n?(.*?)\s*"
+            r"(?:^[ \t>*_`]*(?:-{3}[ \t]*)?ENDE(?:[ \t]*-{3})?[ \t*_`]*$"
             r"|(?=^[ \t#*]*Quellen\b)|(?=^[ \t*]*Offiziell nachprüfen)|\Z)"
         )
         block = re.search(muster, text, re.DOTALL | re.MULTILINE)
@@ -652,6 +673,8 @@ def zerlege(text):
     teile["abschnitte"] = gliedere(teile["text"])
     return teile
 
+
+HINWEIS_RECHT = "Orientierung, keine Rechtsberatung – bitte selbst prüfen."
 
 # Reihenfolge der Bloecke in der Antwort
 ABSCHNITT_REIHE = {"einleitung": 0, "bot": 1, "einordnung": 2, "frage": 3, "tun": 4, "quellen": 5}   # "bot": alter Block, wird nicht mehr gezeigt
@@ -694,7 +717,7 @@ def gliedere(text):
 
 
 _STRICH_ZEILE = re.compile(r"^[ \t]*(?:-{3,}|={3,}|\*{3,}|_{3,})[ \t]*$")
-_MARKER_ZEILE = re.compile(r"^[ \t>*_`]*-{3}[ \t]*(?:ANTWORT|MAIL|ERINNERUNG|ENDE)[ \t]*-{3}[ \t*_`]*$", re.IGNORECASE)
+_MARKER_ZEILE = re.compile(r"^[ \t>*_`#]*(?:-{3}[ \t]*)?(?:ANTWORT|MAIL|ERINNERUNG|ENDE)(?:[ \t]*-{3})?[ \t*_`:]*$")
 _LISTE_MIT_RAUTE = re.compile(r"^([ \t]*(?:[-*+]|\d{1,2}[.)])[ \t]+)#{1,6}[ \t]*(.*)$")
 _UEBERSCHRIFT = re.compile(r"^[ \t]{0,3}#{1,6}[ \t]*(.*?)[ \t#]*$")
 
@@ -753,6 +776,11 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
             unsafe_allow_html=True,
         )
 
+    if t["gelesen"]:
+        with st.expander("🔎 Das habe ich gelesen – bitte kurz prüfen"):
+            st.markdown(bereinige_markdown(t["gelesen"]))
+            st.caption("Stimmt etwas nicht oder fehlt etwas? Schreib es unten in den Chat, dann prüfe ich noch einmal.")
+
     abschnitte = t["abschnitte"]
     hat_tun = any(a == "tun" for a, _, _ in abschnitte)
     aktionen = bool(t["antwort"] or t["mail"] or t["erinnerung"] or t["mensch"])
@@ -797,6 +825,8 @@ def zeige_antwort(text, nr, hilfe="Prüfen + Entwürfe"):
         zeige_aktionen()
     if t["offiziell"] and not any(a == "quellen" for a, _, _ in abschnitte):
         st.caption("Offiziell nachprüfen: " + t["offiziell"])
+    if t["farbe"]:
+        st.caption(HINWEIS_RECHT)
 
 
 def ics_datei(titel, start):
@@ -1025,14 +1055,36 @@ if neu:
                         c = c[0]["text"] + "\n[Screenshot aus früherer Nachricht]"
                     verlauf.append({"role": m["role"], "content": c})
 
-                response = client.chat.complete(
-                    model=MODEL,
-                    max_tokens=TOKENS_LAENGE[laenge],
-                    messages=[{"role": "system", "content": SYSTEM_PROMPT}] + verlauf,
+                # 1. Einordnung: Thema und bei Fluegen Abflug- und Zielland (mit den letzten Nachrichten der Person)
+                nutzer = [m for m in gueltig if m["role"] == "user"][-3:]
+                bild_url = inhalt[1]["image_url"] if isinstance(inhalt, list) else None
+                einordnung = logik.klassifiziere(chat, [_nur_text(m["content"]) for m in nutzer], bild_url)
+
+                # 2. Auswahl der Wissenseintraege und feste Rechtspruefung (kein Modell)
+                ids, rahmen, recht = logik.waehle(einordnung, modus)
+                wissen = logik.wissen_text(WISSEN_KOPF, WISSEN_EINTRAEGE, ids)
+                system = PROMPT_BASIS + "\n\n" + (rahmen + "\n\n" if rahmen else "") + wissen
+                protokolliere("Recht geprüft: " + {
+                    "kein_flug": "kein Flug", "unklar": "Strecke unklar, Rückfrage",
+                    "keines": "kein Fluggastrecht passt",
+                    "gilt": "Fluggastrecht " + " und ".join(n for n, ok in (("EU", recht["eu"]), ("US", recht["us"])) if ok),
+                }[recht["status"]])
+                protokolliere("Wissenseinträge für diese Frage: " + ", ".join(f"[{i}]" for i in ids))
+
+                # 3. Antwort, Pruefung und ein Korrekturversuch bei Regelverstoessen
+                referenz = wissen + "\n" + "\n".join(_nur_text(m["content"]) for m in nutzer)
+                answer, pruefung = logik.antwort_mit_pruefung(
+                    chat, [{"role": "system", "content": system}] + verlauf, TOKENS_LAENGE[laenge],
+                    referenz, hilfe == "Prüfen + Entwürfe",
                 )
-                answer = response.choices[0].message.content
-                if not isinstance(answer, str) or not answer.strip():
-                    raise ValueError("leere Antwort")
+                if pruefung["fehler"]:
+                    protokolliere(f"Antwort geprüft: {len(pruefung['fehler'])} Auffälligkeit(en), "
+                                  + ("nach Korrektur behoben" if pruefung["korrigiert"] and not pruefung["rest"]
+                                     else "Korrektur versucht" if pruefung["korrigiert"] else "nicht korrigierbar"))
+                # 4. Quellen und Links baut das Programm aus den tatsaechlich zitierten Eintraegen
+                answer, qinfo = logik.nachbearbeite(answer, ids, WISSEN_EINTRAEGE)
+                if qinfo["entfernt"]:
+                    protokolliere("Verweise auf nicht passende Einträge entfernt: " + ", ".join(f"[{i}]" for i in qinfo["entfernt"]))
             except Exception as e:
                 print("Modell-Aufruf fehlgeschlagen:", repr(e))
                 protokolliere("Technischer Fehler, keine Antwort")
